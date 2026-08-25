@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  distDir: ".next-build",
   outputFileTracingRoot: process.cwd(),
   turbopack: { root: process.cwd() },
   experimental: { useTypeScriptCli: false, cpus: 1 },
