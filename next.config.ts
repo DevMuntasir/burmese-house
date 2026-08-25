@@ -1,0 +1,16 @@
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  distDir: ".next-build",
+  outputFileTracingRoot: process.cwd(),
+  turbopack: { root: process.cwd() },
+  experimental: { useTypeScriptCli: false, cpus: 1 },
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "cdn.sanity.io" },
+      { protocol: "https", hostname: "images.unsplash.com" },
+    ],
+  },
+};
+
+export default nextConfig;
