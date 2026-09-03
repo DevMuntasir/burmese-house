@@ -1,7 +1,7 @@
 export const productProjection = `{
   _id, title, "slug": slug.current, shortDescription,
   "description": coalesce(pt::text(description), shortDescription),
-  "images": images[].asset->url,
+  "images": coalesce(images[].asset->url, []),
   "category": category->{name, "slug": slug.current},
   sku, regularPrice, salePrice, isFeatured, isBestSeller, isNewArrival,
   stockQuantity, soldCount,

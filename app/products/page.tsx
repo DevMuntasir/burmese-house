@@ -8,7 +8,7 @@ export const metadata: Metadata = { title: "All Chutneys", description: "Shop ha
 
 export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ sort?: string; category?: string }> }) {
   const [{ sort, category }, products, categories] = await Promise.all([searchParams, getProducts(), getCategories()]);
-  let visible = category ? products.filter((item) => item.category.slug === category) : [...products];
+  let visible = category ? products.filter((item) => item.category?.slug === category) : [...products];
   if (sort === "price-low") visible.sort((a, b) => (a.salePrice ?? a.regularPrice) - (b.salePrice ?? b.regularPrice));
   if (sort === "price-high") visible.sort((a, b) => (b.salePrice ?? b.regularPrice) - (a.salePrice ?? a.regularPrice));
   if (sort === "sale") visible = visible.filter((item) => item.salePrice);

@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
       const stock = variant?.stock ?? product.stockQuantity;
       if (stock < item.quantity) return NextResponse.json({ error: `Only ${stock} of ${product.title} are available` }, { status: 409 });
       const unitPrice = (product.salePrice && product.salePrice < product.regularPrice ? product.salePrice : product.regularPrice) + (variant?.priceAdjustment ?? 0);
-      orderItems.push({ _key: crypto.randomUUID(), productId: product._id, product: { _type: "reference", _ref: product._id }, title: product.title, sku: variant?.sku ?? product.sku, variantTitle: variant?.title, imageUrl: variant?.image ?? product.images[0], quantity: item.quantity, unitPrice, lineTotal: unitPrice * item.quantity });
+      orderItems.push({ _key: crypto.randomUUID(), productId: product._id, product: { _type: "reference", _ref: product._id }, title: product.title, sku: variant?.sku ?? product.sku, variantTitle: variant?.title, imageUrl: variant?.image ?? product.images?.[0], quantity: item.quantity, unitPrice, lineTotal: unitPrice * item.quantity });
     }
     if (input.paymentMethod === "bkash" && hasSanityConfig && input.transactionId) {
       const exists = await sanityClient.fetch<string | null>(`*[_type == "order" && payment.transactionId == $transactionId][0]._id`, { transactionId: input.transactionId });
