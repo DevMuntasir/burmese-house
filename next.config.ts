@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   outputFileTracingRoot: process.cwd(),
   turbopack: { root: process.cwd() },
-  experimental: { useTypeScriptCli: false, cpus: 1 },
+  experimental: { useTypeScriptCli: true, cpus: 1 },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "cdn.sanity.io" },

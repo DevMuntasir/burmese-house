@@ -92,8 +92,11 @@ export function ProductCard({ product }: { product: Product }) {
     animateToCart();
   };
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("burmese-house-wishlist") || "[]") as string[];
-    setWishlisted(saved.includes(product._id));
+    const timer = setTimeout(() => {
+      const saved = JSON.parse(localStorage.getItem("burmese-house-wishlist") || "[]") as string[];
+      setWishlisted(saved.includes(product._id));
+    }, 0);
+    return () => clearTimeout(timer);
   }, [product._id]);
   const toggleWishlist = () => {
     const saved = JSON.parse(localStorage.getItem("burmese-house-wishlist") || "[]") as string[];

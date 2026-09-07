@@ -22,11 +22,16 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(storageKey);
-      if (stored) setItems(JSON.parse(stored) as CartItem[]);
-    } catch { localStorage.removeItem(storageKey); }
-    setReady(true);
+    const timer = setTimeout(() => {
+      try {
+        const stored = localStorage.getItem(storageKey);
+        if (stored) setItems(JSON.parse(stored) as CartItem[]);
+      } catch {
+        localStorage.removeItem(storageKey);
+      }
+      setReady(true);
+    }, 0);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {

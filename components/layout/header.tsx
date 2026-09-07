@@ -15,13 +15,22 @@ export function Header({ settings, categories }: { settings: StoreSettings; cate
   const [query, setQuery] = useState("");
   const router = useRouter();
   const pathname = usePathname();
+
+  if (pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin") || pathname?.startsWith("/studio")) {
+    return null;
+  }
+
   const submitSearch = (event: FormEvent) => {
     event.preventDefault();
     if (query.trim()) router.push(`/search?q=${encodeURIComponent(query.trim())}`);
     setSearchOpen(false);
   };
   const links = [
-    ["Home", "/"], ["All Products", "/products"], ["Offers", "/products?sort=sale"], ["Track Order", "/track-order"],
+    ["Home", "/"],
+    ["All Products", "/products"],
+    ["Offers", "/products?sort=sale"],
+    ["Track Order", "/track-order"],
+    ["Dashboard", "/dashboard"],
   ];
 
   return (

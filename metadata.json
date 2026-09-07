@@ -1,0 +1,8 @@
+{
+  "name": "Burmese House",
+  "description": "Authentic handmade Burmese achar and chutney e-commerce storefront with order tracking and Sanity CMS integration.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

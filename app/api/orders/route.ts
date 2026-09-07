@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getProducts, getStoreSettings } from "@/lib/sanity/data";
 import { hasSanityConfig, sanityClient, writeClient } from "@/lib/sanity/client";
 import { orderSchema } from "@/lib/validations/order";
+import { getNextOrderSequence, saveStoredOrder } from "@/lib/orders-store";
+import type { DashboardOrder } from "@/lib/orders-data";
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,8 +23,12 @@ export async function POST(request: NextRequest) {
       orderItems.push({ _key: crypto.randomUUID(), productId: product._id, product: { _type: "reference", _ref: product._id }, title: product.title, sku: variant?.sku ?? product.sku, variantTitle: variant?.title, imageUrl: variant?.image ?? product.images?.[0], quantity: item.quantity, unitPrice, lineTotal: unitPrice * item.quantity });
     }
     if (input.paymentMethod === "bkash" && hasSanityConfig && input.transactionId) {
-      const exists = await sanityClient.fetch<string | null>(`*[_type == "order" && payment.transactionId == $transactionId][0]._id`, { transactionId: input.transactionId });
-      if (exists) return NextResponse.json({ error: "This Transaction ID has already been used" }, { status: 409 });
+      try {
+        const exists = await sanityClient.fetch<string | null>(`*[_type == "order" && payment.transactionId == $transactionId][0]._id`, { transactionId: input.transactionId });
+        if (exists) return NextResponse.json({ error: "This Transaction ID has already been used" }, { status: 409 });
+      } catch (err) {
+        console.warn("Sanity transaction ID check failed", err);
+      }
     }
     const subtotal = orderItems.reduce((sum, item) => sum + item.lineTotal, 0);
     const shippingCharge = input.deliveryZone === "inside-dhaka" ? settings.insideDhakaCharge : settings.outsideDhakaCharge;
@@ -30,7 +36,59 @@ export async function POST(request: NextRequest) {
     const orderNumber = `BH-${new Date().toISOString().slice(2, 10).replaceAll("-", "")}-${crypto.randomUUID().slice(0, 5).toUpperCase()}`;
     const order = { _type: "order", orderNumber, customerName: input.customerName, phone: input.phone, email: input.email, shippingAddress: { district: input.district, area: input.area, address: input.address, deliveryZone: input.deliveryZone }, items: orderItems, subtotal, shippingCharge, discount: 0, total, paymentMethod: input.paymentMethod, payment: input.paymentMethod === "bkash" ? { senderNumber: input.senderBkashNumber, transactionId: input.transactionId, submittedAt: new Date().toISOString() } : undefined, paymentStatus: input.paymentMethod === "bkash" ? "submitted" : "unpaid", orderStatus: "placed", customerNote: input.note, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };
     let id = orderNumber;
-    if (hasSanityConfig && process.env.SANITY_API_WRITE_TOKEN) id = (await writeClient.create(order))._id;
+    if (hasSanityConfig && process.env.SANITY_API_WRITE_TOKEN) {
+      try {
+        id = (await writeClient.create(order))._id;
+      } catch (err) {
+        console.warn("Sanity order write failed", err);
+      }
+    }
+
+    const seq = getNextOrderSequence();
+    const now = new Date();
+    const dateFormatted =
+      now.toLocaleDateString("en-US", { month: "short", day: "numeric" }) +
+      " · " +
+      now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+
+    const dashboardOrder: DashboardOrder = {
+      id: id || String(seq),
+      orderSeq: seq,
+      orderNumber: orderNumber.replace(/^BH-/, ""),
+      fullOrderCode: orderNumber,
+      channel: "online",
+      customerName: input.customerName,
+      phone: input.phone,
+      email: input.email,
+      district: input.district,
+      area: input.area,
+      address: input.address,
+      deliveryZone: input.deliveryZone,
+      itemsCount: orderItems.length,
+      totalQuantity: orderItems.reduce((acc, it) => acc + it.quantity, 0),
+      subtotal,
+      shippingCharge,
+      totalAmount: total,
+      paymentMethod: input.paymentMethod,
+      paymentStatus: input.paymentMethod === "bkash" ? "submitted" : "unpaid",
+      orderStatus: "placed",
+      dateFormatted,
+      createdAt: now.toISOString(),
+      customerNote: input.note,
+      items: orderItems.map((item) => ({
+        productId: item.productId,
+        title: item.title,
+        variantTitle: item.variantTitle,
+        imageUrl: item.imageUrl || "/images/mango-chutney.png",
+        quantity: item.quantity,
+        unitPrice: item.unitPrice,
+        lineTotal: item.lineTotal,
+        sku: item.sku,
+      })),
+      payment: order.payment,
+    };
+    saveStoredOrder(dashboardOrder);
+
     return NextResponse.json({ orderId: id, orderNumber, total, status: "placed", paymentStatus: order.paymentStatus });
   } catch (error) {
     console.error("Order creation failed", error);
@@ -43,6 +101,11 @@ export async function GET(request: NextRequest) {
   const phone = request.nextUrl.searchParams.get("phone")?.trim();
   if (!orderNumber || !phone || !/^01[3-9]\d{8}$/.test(phone)) return NextResponse.json({ error: "Order number and valid phone number are required" }, { status: 400 });
   if (!hasSanityConfig) return NextResponse.json({ error: "Order not found" }, { status: 404 });
-  const order = await sanityClient.fetch(`*[_type == "order" && orderNumber == $orderNumber && phone == $phone][0]{orderNumber, customerName, phone, items[]{title, quantity, unitPrice, lineTotal, variantTitle}, subtotal, shippingCharge, total, paymentMethod, paymentStatus, orderStatus, createdAt}`, { orderNumber, phone });
-  return order ? NextResponse.json(order) : NextResponse.json({ error: "No matching order found" }, { status: 404 });
+  try {
+    const order = await sanityClient.fetch(`*[_type == "order" && orderNumber == $orderNumber && phone == $phone][0]{orderNumber, customerName, phone, items[]{title, quantity, unitPrice, lineTotal, variantTitle}, subtotal, shippingCharge, total, paymentMethod, paymentStatus, orderStatus, createdAt}`, { orderNumber, phone });
+    return order ? NextResponse.json(order) : NextResponse.json({ error: "No matching order found" }, { status: 404 });
+  } catch (err) {
+    console.warn("Sanity order fetch failed", err);
+    return NextResponse.json({ error: "No matching order found" }, { status: 404 });
+  }
 }

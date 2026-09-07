@@ -1,4 +1,4 @@
-import { defineArrayMember, defineField, defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 export const seo = defineType({ name: "seo", title: "SEO", type: "object", fields: [
   defineField({ name: "metaTitle", type: "string", validation: (rule) => rule.max(60) }),

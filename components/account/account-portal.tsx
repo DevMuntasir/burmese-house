@@ -10,7 +10,19 @@ import { createSupabaseBrowserClient, hasSupabaseConfig } from "@/lib/supabase/c
 type LocalOrder = { orderNumber: string; createdAt: string; total: number; orderStatus: string; paymentStatus: string };
 export function AccountPortal() {
   const [orders, setOrders] = useState<LocalOrder[]>([]); const [userEmail, setUserEmail] = useState<string | null>(null); const [loading, setLoading] = useState(hasSupabaseConfig); const [mode, setMode] = useState<"login" | "signup">("login");
-  useEffect(() => { setOrders(JSON.parse(localStorage.getItem("burmese-house-orders-v1") || "[]") as LocalOrder[]); const supabase = createSupabaseBrowserClient(); if (!supabase) return; supabase.auth.getUser().then(({ data }) => { setUserEmail(data.user?.email ?? null); setLoading(false); }); }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setOrders(JSON.parse(localStorage.getItem("burmese-house-orders-v1") || "[]") as LocalOrder[]);
+    }, 0);
+    const supabase = createSupabaseBrowserClient();
+    if (supabase) {
+      supabase.auth.getUser().then(({ data }) => {
+        setUserEmail(data.user?.email ?? null);
+        setLoading(false);
+      });
+    }
+    return () => clearTimeout(timer);
+  }, []);
   const authenticate = async (event: FormEvent<HTMLFormElement>) => { event.preventDefault(); const supabase = createSupabaseBrowserClient(); if (!supabase) return; const data = new FormData(event.currentTarget); const email = String(data.get("email")); const password = String(data.get("password")); setLoading(true); const result = mode === "login" ? await supabase.auth.signInWithPassword({ email, password }) : await supabase.auth.signUp({ email, password }); setLoading(false); if (result.error) return toast.error(result.error.message); if (mode === "signup" && !result.data.session) return toast.success("Check your email to confirm your account"); setUserEmail(result.data.user?.email ?? email); toast.success(mode === "login" ? "Login successful" : "Account created"); };
   const logout = async () => { await createSupabaseBrowserClient()?.auth.signOut(); setUserEmail(null); toast.success("Signed out"); };
   if (loading) return <div className="flex min-h-60 items-center justify-center"><LoaderCircle className="animate-spin" /></div>;

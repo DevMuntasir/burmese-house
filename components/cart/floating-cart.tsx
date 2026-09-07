@@ -1,7 +1,8 @@
 "use client";
 
-import { ArrowRight, ShoppingBag } from "lucide-react";
+import { ShoppingBag } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCart } from "./cart-provider";
 import { formatPrice } from "@/lib/format";
@@ -9,6 +10,7 @@ import { formatPrice } from "@/lib/format";
 export function FloatingCart() {
   const { itemCount, subtotal } = useCart();
   const [popping, setPopping] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -25,6 +27,10 @@ export function FloatingCart() {
       if (timer) clearTimeout(timer);
     };
   }, []);
+
+  if (pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin") || pathname?.startsWith("/studio")) {
+    return null;
+  }
 
   return (
     <Link

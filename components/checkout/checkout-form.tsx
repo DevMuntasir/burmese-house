@@ -23,15 +23,41 @@ export function CheckoutForm({ settings }: { settings: StoreSettings }) {
   const [ready, setReady] = useState(false);
   const [serverError, setServerError] = useState("");
   const isBuyNow = searchParams.get("buyNow") === "1";
+  const { register, handleSubmit, watch, reset, formState: { errors, isSubmitting } } = useForm<CheckoutFields>({ defaultValues: { deliveryZone: "inside-dhaka", paymentMethod: "cod", email: "", note: "", senderBkashNumber: "", transactionId: "" } });
   useEffect(() => {
     if (isBuyNow) {
       try { setBuyNowItems(JSON.parse(sessionStorage.getItem("burmese-house-buy-now") || "[]") as CartItem[]); } catch { setBuyNowItems([]); }
     }
+    try {
+      const defaultAddr = localStorage.getItem("burmese-house-default-address");
+      const profile = localStorage.getItem("burmese-house-user-profile");
+      if (defaultAddr) {
+        const addr = JSON.parse(defaultAddr);
+        reset((prev) => ({
+          ...prev,
+          customerName: addr.customerName || prev.customerName,
+          phone: addr.phone || prev.phone,
+          district: addr.district || prev.district,
+          area: addr.area || prev.area,
+          address: addr.address || prev.address,
+          deliveryZone: addr.deliveryZone || prev.deliveryZone,
+        }));
+      } else if (profile) {
+        const p = JSON.parse(profile);
+        reset((prev) => ({
+          ...prev,
+          customerName: p.name || prev.customerName,
+          phone: p.phone || prev.phone,
+          email: p.email || prev.email,
+        }));
+      }
+    } catch {
+      // ignore parse issues
+    }
     setReady(true);
-  }, [isBuyNow]);
+  }, [isBuyNow, reset]);
   const items = isBuyNow ? buyNowItems : cart.items;
   const subtotal = useMemo(() => items.reduce((sum, item) => sum + item.price * item.quantity, 0), [items]);
-  const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm<CheckoutFields>({ defaultValues: { deliveryZone: "inside-dhaka", paymentMethod: "cod", email: "", note: "", senderBkashNumber: "", transactionId: "" } });
   const zone = watch("deliveryZone");
   const method = watch("paymentMethod");
   const shipping = zone === "inside-dhaka" ? settings.insideDhakaCharge : settings.outsideDhakaCharge;
