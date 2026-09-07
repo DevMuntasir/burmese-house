@@ -1083,7 +1083,7 @@ export function DashboardView({
               <Link
                 href="/studio"
                 target="_blank"
-                className="h-10 px-3.5 rounded-xl bg-[#6f2742] text-white flex items-center gap-1.5 text-xs font-bold hover:bg-[#5a1e35] active:scale-95 shadow-sm transition shrink-0"
+                className="h-10 px-3.5 rounded-xl bg-[#6f2742] !text-white flex items-center gap-1.5 text-xs font-bold hover:bg-[#5a1e35] active:scale-95 shadow-sm transition shrink-0"
               >
                 <Plus size={16} strokeWidth={2.5} />
                 <span>Add / Studio</span>
