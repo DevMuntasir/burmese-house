@@ -31,7 +31,7 @@ img { max-width: 100%; }
   62% { transform: translateY(-5px) scale(1.08, .96); }
   82% { transform: translateY(1px) scale(.98, 1.02); }
 }
-.cart-bag-pop { animation: cart-bag-pop .52s cubic-bezier(.2,.8,.25,1); transform-origin: center bottom; }
+.cart-bag-pop { animation: cart-bag-pop .78s cubic-bezier(.16,.78,.24,1); transform-origin: center bottom; }
 
 @media (prefers-reduced-motion: reduce) {
   .cart-bag-pop { animation: none; }

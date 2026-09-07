@@ -41,6 +41,8 @@ export function ProductCard({ product }: { product: Product }) {
     const startTop = start.top + start.height / 2 - thumbnailSize / 2;
     const endLeft = end.left + end.width / 2 - thumbnailSize / 2;
     const endTop = end.top + end.height / 2 - thumbnailSize / 2;
+    const deltaX = endLeft - startLeft;
+    const deltaY = endTop - startTop;
     const flyingImage = sourceImage.cloneNode(true) as HTMLImageElement;
     Object.assign(flyingImage.style, {
       position: "fixed",
@@ -58,11 +60,13 @@ export function ProductCard({ product }: { product: Product }) {
     document.body.appendChild(flyingImage);
 
     const animation = flyingImage.animate([
-      { left: `${startLeft}px`, top: `${startTop}px`, opacity: 1, transform: "scale(.78) rotate(0deg)" },
-      { left: `${startLeft + (endLeft - startLeft) * 0.55}px`, top: `${startTop + (endTop - startTop) * 0.42 - 85}px`, opacity: 1, transform: "scale(1) rotate(7deg)", offset: 0.52 },
-      { left: `${endLeft}px`, top: `${endTop - 12}px`, opacity: 0.92, transform: "scale(.48) rotate(15deg)", offset: 0.88 },
-      { left: `${endLeft}px`, top: `${endTop + 7}px`, opacity: 0, transform: "scale(.12) rotate(18deg)" },
-    ], { duration: 760, easing: "cubic-bezier(.22,.72,.2,1)", fill: "forwards" });
+      { opacity: 1, transform: "translate3d(0, 0, 0) scale(.78) rotate(0deg)" },
+      { opacity: 1, transform: `translate3d(${deltaX * 0.22}px, ${deltaY * 0.12 - 58}px, 0) scale(.92) rotate(-4deg)`, offset: 0.22 },
+      { opacity: 1, transform: `translate3d(${deltaX * 0.54}px, ${deltaY * 0.4 - 118}px, 0) scale(1) rotate(7deg)`, offset: 0.54 },
+      { opacity: 0.96, transform: `translate3d(${deltaX * 0.84}px, ${deltaY * 0.8 - 48}px, 0) scale(.7) rotate(13deg)`, offset: 0.82 },
+      { opacity: 0.92, transform: `translate3d(${deltaX}px, ${deltaY - 12}px, 0) scale(.48) rotate(15deg)`, offset: 0.94 },
+      { opacity: 0, transform: `translate3d(${deltaX}px, ${deltaY + 7}px, 0) scale(.12) rotate(18deg)` },
+    ], { duration: 1400, easing: "cubic-bezier(.22,.72,.2,1)", fill: "forwards" });
 
     animation.onfinish = () => {
       flyingImage.remove();
