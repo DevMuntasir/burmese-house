@@ -6,7 +6,7 @@ export function HomeHero() {
   return (
     <>
       <section className="bg-white px-3 pb-3 pt-5 sm:hidden">
-        <div className="mb-3 flex items-center justify-between"><h2 className="text-[20px] font-semibold">#আপনারজন্যবিশেষ</h2><Link href="/products?sort=sale" className="text-[11px] font-medium text-[#ff464b]">সব দেখুন</Link></div>
+        {/* <div className="mb-3 flex items-center justify-between"><h2 className="text-[20px] font-semibold">#আপনারজন্যবিশেষ</h2><Link href="/products?sort=sale" className="text-[11px] font-medium text-[#ff464b]">সব দেখুন</Link></div> */}
         <div className="relative h-[172px] overflow-hidden rounded-[18px] bg-[#281a19] shadow-[0_8px_20px_rgba(0,0,0,.12)]">
           <Image src="/images/hero-chutney.png" alt="Burmese House chutney special offer" fill priority sizes="calc(100vw - 24px)" className="object-cover object-[68%_center]" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#211414] via-[#291a18]/90 to-transparent" />
