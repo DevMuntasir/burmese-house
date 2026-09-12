@@ -10,6 +10,10 @@ export const storeSettings: StoreSettings = {
   currency: "BDT",
   insideDhakaCharge: 80,
   outsideDhakaCharge: 130,
+  deliveryZones: [
+    { _key: "zone-inside", name: "Inside Dhaka", charge: 80, estimatedTime: "1–2 days", isDefault: true },
+    { _key: "zone-outside", name: "Outside Dhaka", charge: 130, estimatedTime: "3–5 days", isDefault: false },
+  ],
   cashOnDeliveryEnabled: true,
   bkashEnabled: true,
   bkashNumber: "01XXXXXXXXX",

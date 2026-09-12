@@ -13,7 +13,7 @@ export interface SavedAddress {
   district: string;
   area: string;
   address: string;
-  deliveryZone: "inside-dhaka" | "outside-dhaka";
+  deliveryZone: string;
   isDefault: boolean;
 }
 
@@ -29,7 +29,7 @@ export function AccountAddresses() {
     district: "Dhaka",
     area: "",
     address: "",
-    deliveryZone: "inside-dhaka",
+    deliveryZone: "Inside Dhaka",
     isDefault: false,
   });
 
@@ -84,7 +84,7 @@ export function AccountAddresses() {
       district: "Dhaka",
       area: "",
       address: "",
-      deliveryZone: "inside-dhaka",
+      deliveryZone: "Inside Dhaka",
       isDefault: false,
     });
   };
@@ -167,23 +167,21 @@ export function AccountAddresses() {
 
             <div>
               <label className="label" htmlFor="addr-zone">
-                Delivery Zone
+                Delivery Zone / Area
               </label>
-              <select
+              <input
                 id="addr-zone"
+                type="text"
                 className="field"
+                placeholder="e.g. Inside Dhaka, Inside Feni, Outside Dhaka"
                 value={newAddress.deliveryZone}
                 onChange={(e) =>
                   setNewAddress({
                     ...newAddress,
-                    deliveryZone: e.target.value as "inside-dhaka" | "outside-dhaka",
-                    district: e.target.value === "inside-dhaka" ? "Dhaka" : newAddress.district,
+                    deliveryZone: e.target.value,
                   })
                 }
-              >
-                <option value="inside-dhaka">Inside Dhaka</option>
-                <option value="outside-dhaka">Outside Dhaka</option>
-              </select>
+              />
             </div>
 
             <div>
@@ -323,7 +321,7 @@ export function AccountAddresses() {
                     </span>
                   )}
                   <span className="text-xs text-stone-400">
-                    ({addr.deliveryZone === "inside-dhaka" ? "Inside Dhaka" : "Outside Dhaka"})
+                    ({addr.deliveryZone === "inside-dhaka" ? "Inside Dhaka" : addr.deliveryZone === "outside-dhaka" ? "Outside Dhaka" : addr.deliveryZone || "Standard"})
                   </span>
                 </div>
                 <h3 className="font-bold text-stone-900">{addr.customerName}</h3>

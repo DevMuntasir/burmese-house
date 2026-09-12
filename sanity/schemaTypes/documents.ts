@@ -26,6 +26,58 @@ export const customer = defineType({ name: "customer", title: "Customers", type:
 export const banner = defineType({ name: "banner", title: "Banners", type: "document", fields: [defineField({ name: "title", type: "string", validation: (rule) => rule.required() }), defineField({ name: "subtitle", type: "string" }), defineField({ name: "image", type: "image", options: { hotspot: true }, validation: (rule) => rule.required() }), defineField({ name: "mobileImage", type: "image", options: { hotspot: true } }), defineField({ name: "link", type: "string" }), defineField({ name: "buttonText", type: "string" }), defineField({ name: "active", type: "boolean", initialValue: true }), defineField({ name: "sortOrder", type: "number", initialValue: 10 }), defineField({ name: "startDate", type: "datetime" }), defineField({ name: "endDate", type: "datetime" })], preview: { select: { title: "title", subtitle: "subtitle", media: "image" } } });
 
 export const storeSettings = defineType({ name: "storeSettings", title: "Store settings", type: "document", fields: [defineField({ name: "storeName", type: "string", validation: (rule) => rule.required() }), defineField({ name: "logo", type: "image" }), defineField({ name: "favicon", type: "image" }), defineField({ name: "announcement", type: "string" }), defineField({ name: "phone", type: "string" }), defineField({ name: "email", type: "string" }), defineField({ name: "whatsapp", type: "string" }), defineField({ name: "address", type: "text" }), defineField({ name: "facebook", type: "url" }), defineField({ name: "instagram", type: "url" }), defineField({ name: "tiktok", type: "url" }), defineField({ name: "footerText", type: "text" }), defineField({ name: "currency", type: "string", initialValue: "BDT" })] });
-export const shippingSettings = defineType({ name: "shippingSettings", title: "Shipping settings", type: "document", fields: [defineField({ name: "insideDhakaCharge", type: "number", validation: (rule) => rule.required().min(0) }), defineField({ name: "outsideDhakaCharge", type: "number", validation: (rule) => rule.required().min(0) }), defineField({ name: "freeShippingEnabled", type: "boolean", initialValue: false }), defineField({ name: "freeShippingMinimum", type: "number", hidden: ({ document }) => !document?.freeShippingEnabled }), defineField({ name: "deliveryInformation", type: "array", of: [defineArrayMember({ type: "block" })] })] });
+export const shippingSettings = defineType({
+  name: "shippingSettings",
+  title: "Shipping settings",
+  type: "document",
+  fields: [
+    defineField({
+      name: "deliveryZones",
+      title: "Delivery Zones / Locations",
+      description: "Define delivery locations, charges, and timelines (e.g. Inside Dhaka, Inside Feni, Outside Dhaka)",
+      type: "array",
+      of: [defineArrayMember({ type: "deliveryOption" })],
+    }),
+    defineField({
+      name: "freeShippingEnabled",
+      title: "Enable Free Shipping Threshold",
+      type: "boolean",
+      initialValue: false,
+    }),
+    defineField({
+      name: "freeShippingMinimum",
+      title: "Minimum Order Amount for Free Shipping (৳)",
+      type: "number",
+      hidden: ({ document }) => !document?.freeShippingEnabled,
+    }),
+    defineField({
+      name: "deliveryInformation",
+      title: "Delivery Information & Policies",
+      type: "array",
+      of: [defineArrayMember({ type: "block" })],
+    }),
+    defineField({
+      name: "insideDhakaCharge",
+      title: "Legacy Fallback: Inside Dhaka Charge",
+      type: "number",
+      description: "Fallback if no delivery zones are listed above",
+    }),
+    defineField({
+      name: "outsideDhakaCharge",
+      title: "Legacy Fallback: Outside Dhaka Charge",
+      type: "number",
+      description: "Fallback if no delivery zones are listed above",
+    }),
+  ],
+  preview: {
+    select: {
+      zones: "deliveryZones",
+    },
+    prepare: ({ zones }) => ({
+      title: "Shipping Settings",
+      subtitle: `${Array.isArray(zones) ? zones.length : 0} delivery zones configured`,
+    }),
+  },
+});
 export const paymentSettings = defineType({ name: "paymentSettings", title: "Payment settings", type: "document", fields: [defineField({ name: "cashOnDeliveryEnabled", type: "boolean", initialValue: true }), defineField({ name: "bkashEnabled", type: "boolean", initialValue: true }), defineField({ name: "bkashNumber", type: "string", hidden: ({ document }) => !document?.bkashEnabled }), defineField({ name: "bkashAccountType", type: "string", options: { list: ["Personal", "Merchant"] }, hidden: ({ document }) => !document?.bkashEnabled }), defineField({ name: "bkashInstructions", type: "text", rows: 4, hidden: ({ document }) => !document?.bkashEnabled })] });
 export const homepageSettings = defineType({ name: "homepageSettings", title: "Homepage settings", type: "document", fields: [defineField({ name: "heroBanners", type: "array", of: [defineArrayMember({ type: "reference", to: [{ type: "banner" }] })] }), defineField({ name: "featuredCategories", type: "array", of: [defineArrayMember({ type: "reference", to: [{ type: "category" }] })] }), defineField({ name: "sections", type: "array", of: [defineArrayMember({ type: "homeSection" })] })] });

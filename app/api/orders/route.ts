@@ -31,7 +31,18 @@ export async function POST(request: NextRequest) {
       }
     }
     const subtotal = orderItems.reduce((sum, item) => sum + item.lineTotal, 0);
-    const shippingCharge = input.deliveryZone === "inside-dhaka" ? settings.insideDhakaCharge : settings.outsideDhakaCharge;
+    const matchedZone =
+      settings.deliveryZones?.find((z) => z.name.toLowerCase() === input.deliveryZone.toLowerCase()) ||
+      (input.deliveryZone === "inside-dhaka"
+        ? settings.deliveryZones?.find((z) => z.name.toLowerCase().includes("inside")) || { name: "Inside Dhaka", charge: settings.insideDhakaCharge ?? 80 }
+        : input.deliveryZone === "outside-dhaka"
+        ? settings.deliveryZones?.find((z) => z.name.toLowerCase().includes("outside")) || { name: "Outside Dhaka", charge: settings.outsideDhakaCharge ?? 130 }
+        : settings.deliveryZones?.[0]);
+
+    let shippingCharge = matchedZone ? Number(matchedZone.charge) : 80;
+    if (settings.freeShippingEnabled && settings.freeShippingMinimum && subtotal >= settings.freeShippingMinimum) {
+      shippingCharge = 0;
+    }
     const total = subtotal + shippingCharge;
     const orderNumber = `BH-${new Date().toISOString().slice(2, 10).replaceAll("-", "")}-${crypto.randomUUID().slice(0, 5).toUpperCase()}`;
     const order = { _type: "order", orderNumber, customerName: input.customerName, phone: input.phone, email: input.email, shippingAddress: { district: input.district, area: input.area, address: input.address, deliveryZone: input.deliveryZone }, items: orderItems, subtotal, shippingCharge, discount: 0, total, paymentMethod: input.paymentMethod, payment: input.paymentMethod === "bkash" ? { senderNumber: input.senderBkashNumber, transactionId: input.transactionId, submittedAt: new Date().toISOString() } : undefined, paymentStatus: input.paymentMethod === "bkash" ? "submitted" : "unpaid", orderStatus: "placed", customerNote: input.note, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() };

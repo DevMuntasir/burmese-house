@@ -38,6 +38,14 @@ export type Category = {
   featured?: boolean;
 };
 
+export type DeliveryZoneOption = {
+  _key?: string;
+  name: string;
+  charge: number;
+  estimatedTime?: string;
+  isDefault?: boolean;
+};
+
 export type StoreSettings = {
   storeName: string;
   announcement: string;
@@ -46,8 +54,11 @@ export type StoreSettings = {
   whatsapp: string;
   address: string;
   currency: string;
-  insideDhakaCharge: number;
-  outsideDhakaCharge: number;
+  deliveryZones: DeliveryZoneOption[];
+  insideDhakaCharge?: number;
+  outsideDhakaCharge?: number;
+  freeShippingEnabled?: boolean;
+  freeShippingMinimum?: number;
   cashOnDeliveryEnabled: boolean;
   bkashEnabled: boolean;
   bkashNumber: string;

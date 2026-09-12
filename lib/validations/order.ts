@@ -8,7 +8,7 @@ export const orderSchema = z.object({
   area: z.string().trim().min(2).max(80),
   address: z.string().trim().min(8).max(300),
   note: z.string().max(500).optional(),
-  deliveryZone: z.enum(["inside-dhaka", "outside-dhaka"]),
+  deliveryZone: z.string().trim().min(1, "Please select a delivery zone"),
   paymentMethod: z.enum(["cod", "bkash"]),
   senderBkashNumber: z.string().optional(),
   transactionId: z.string().trim().max(50).optional(),

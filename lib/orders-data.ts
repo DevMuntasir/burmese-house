@@ -21,7 +21,7 @@ export interface DashboardOrder {
   district: string;
   area: string;
   address: string;
-  deliveryZone: "inside-dhaka" | "outside-dhaka";
+  deliveryZone: string;
   itemsCount: number;
   totalQuantity: number;
   subtotal: number;

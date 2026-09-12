@@ -244,7 +244,34 @@ export async function getStoreSettings(): Promise<StoreSettings> {
     const store = data.store ?? {};
     const shipping = data.shipping ?? {};
     const payment = data.payment ?? {};
-    return { ...fallbackSettings, ...store, ...shipping, ...payment } as StoreSettings;
+
+    let deliveryZones = fallbackSettings.deliveryZones;
+    if (Array.isArray(shipping.deliveryZones) && shipping.deliveryZones.length > 0) {
+      deliveryZones = shipping.deliveryZones.map((z: Record<string, unknown>, idx: number) => ({
+        _key: String(z._key || `zone-${idx}`),
+        name: String(z.name || `Zone ${idx + 1}`),
+        charge: Number(z.charge ?? 80),
+        estimatedTime: z.estimatedTime ? String(z.estimatedTime) : undefined,
+        isDefault: Boolean(z.isDefault),
+      }));
+    } else if (shipping.insideDhakaCharge !== undefined || shipping.outsideDhakaCharge !== undefined) {
+      const inside = Number(shipping.insideDhakaCharge ?? 80);
+      const outside = Number(shipping.outsideDhakaCharge ?? 130);
+      deliveryZones = [
+        { _key: "zone-inside", name: "Inside Dhaka", charge: inside, estimatedTime: "1–2 days", isDefault: true },
+        { _key: "zone-outside", name: "Outside Dhaka", charge: outside, estimatedTime: "3–5 days", isDefault: false },
+      ];
+    }
+
+    return {
+      ...fallbackSettings,
+      ...store,
+      ...shipping,
+      ...payment,
+      deliveryZones,
+      insideDhakaCharge: deliveryZones[0]?.charge ?? 80,
+      outsideDhakaCharge: deliveryZones[1]?.charge ?? 130,
+    } as StoreSettings;
   } catch {
     return fallbackSettings;
   }
@@ -362,7 +389,7 @@ export async function getAdminOrders(): Promise<DashboardOrder[]> {
           s.shippingAddress?.district || (s.address?.toLowerCase().includes("dhaka") ? "Dhaka" : "Dhaka"),
         area: s.shippingAddress?.area || (s.address ? s.address.split("\n")[0] : "Dhaka"),
         address: s.shippingAddress?.address || s.address || "",
-        deliveryZone: (s.shippingAddress?.deliveryZone as "inside-dhaka" | "outside-dhaka") || "inside-dhaka",
+        deliveryZone: s.shippingAddress?.deliveryZone || "inside-dhaka",
         itemsCount: items.length,
         totalQuantity: totalQty,
         subtotal,

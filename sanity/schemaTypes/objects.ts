@@ -6,12 +6,63 @@ export const seo = defineType({ name: "seo", title: "SEO", type: "object", field
   defineField({ name: "openGraphImage", type: "image", options: { hotspot: true } }),
 ] });
 
-export const address = defineType({ name: "address", title: "Address", type: "object", fields: [
-  defineField({ name: "label", type: "string" }), defineField({ name: "district", type: "string", validation: (rule) => rule.required() }),
-  defineField({ name: "area", title: "Area / Thana", type: "string", validation: (rule) => rule.required() }),
-  defineField({ name: "address", title: "Full address", type: "text", rows: 3, validation: (rule) => rule.required() }),
-  defineField({ name: "deliveryZone", type: "string", options: { list: [{ title: "Inside Dhaka", value: "inside-dhaka" }, { title: "Outside Dhaka", value: "outside-dhaka" }] } }),
-] });
+export const deliveryOption = defineType({
+  name: "deliveryOption",
+  title: "Delivery Zone / Option",
+  type: "object",
+  fields: [
+    defineField({
+      name: "name",
+      title: "Zone / Location Name",
+      description: "e.g. Inside Dhaka, Inside Feni, Outside Dhaka, Chittagong City",
+      type: "string",
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "charge",
+      title: "Delivery Charge (৳)",
+      type: "number",
+      validation: (rule) => rule.required().min(0),
+    }),
+    defineField({
+      name: "estimatedTime",
+      title: "Estimated Delivery Time (Optional)",
+      description: "e.g. 1–2 days, 2–4 days",
+      type: "string",
+    }),
+    defineField({
+      name: "isDefault",
+      title: "Default Selected Option",
+      type: "boolean",
+      initialValue: false,
+    }),
+  ],
+  preview: {
+    select: {
+      title: "name",
+      charge: "charge",
+      time: "estimatedTime",
+      isDefault: "isDefault",
+    },
+    prepare: ({ title, charge, time, isDefault }) => ({
+      title: `${title || "Delivery Zone"}${isDefault ? " ★ (Default)" : ""}`,
+      subtitle: `৳${charge ?? 0}${time ? ` · ${time}` : ""}`,
+    }),
+  },
+});
+
+export const address = defineType({
+  name: "address",
+  title: "Address",
+  type: "object",
+  fields: [
+    defineField({ name: "label", type: "string" }),
+    defineField({ name: "district", type: "string", validation: (rule) => rule.required() }),
+    defineField({ name: "area", title: "Area / Thana", type: "string", validation: (rule) => rule.required() }),
+    defineField({ name: "address", title: "Full address", type: "text", rows: 3, validation: (rule) => rule.required() }),
+    defineField({ name: "deliveryZone", title: "Delivery Zone", type: "string" }),
+  ],
+});
 
 export const productVariant = defineType({ name: "productVariant", title: "Product variant", type: "object", fields: [
   defineField({ name: "title", type: "string", validation: (rule) => rule.required() }),

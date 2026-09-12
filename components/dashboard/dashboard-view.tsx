@@ -1405,7 +1405,11 @@ export function DashboardView({
                 <p className="font-semibold text-stone-800">{selectedOrder.address}</p>
                 <p className="text-stone-500 mt-0.5">
                   {selectedOrder.area}, {selectedOrder.district} (
-                  {selectedOrder.deliveryZone === "inside-dhaka" ? "Inside Dhaka" : "Outside Dhaka"})
+                  {selectedOrder.deliveryZone === "inside-dhaka"
+                    ? "Inside Dhaka"
+                    : selectedOrder.deliveryZone === "outside-dhaka"
+                    ? "Outside Dhaka"
+                    : selectedOrder.deliveryZone || "Standard Delivery"})
                 </p>
                 {selectedOrder.customerNote && (
                   <p className="mt-2 p-2 rounded-lg bg-amber-50 border border-amber-100 text-amber-900 font-medium">
