@@ -17,3 +17,17 @@ export const settingsQuery = `{
   "shipping": *[_type == "shippingSettings"][0],
   "payment": *[_type == "paymentSettings"][0]
 }`;
+
+export const bannersQuery = `*[_type == "banner" && (active == true || !defined(active))] | order(coalesce(sortOrder, 999) asc, _createdAt desc){
+  _id,
+  title,
+  subtitle,
+  "image": coalesce(image.asset->url, ""),
+  "mobileImage": mobileImage.asset->url,
+  link,
+  buttonText,
+  active,
+  sortOrder,
+  startDate,
+  endDate
+}`;

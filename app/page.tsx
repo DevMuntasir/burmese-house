@@ -3,16 +3,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductGrid } from "@/components/product/product-grid";
 import { HomeHero } from "@/components/storefront/home-hero";
-import { getCategories, getProducts } from "@/lib/sanity/data";
+import { getBanners, getCategories, getProducts } from "@/lib/sanity/data";
 
 export default async function HomePage() {
-  const [products, categories] = await Promise.all([getProducts(), getCategories()]);
+  const [products, categories, banners] = await Promise.all([
+    getProducts(),
+    getCategories(),
+    getBanners(),
+  ]);
   const featured = products.filter((product) => product.isFeatured).slice(0, 8);
   const bestSelling = products.filter((product) => product.isBestSeller).slice(0, 4);
   const newArrivals = products.filter((product) => product.isNewArrival).slice(0, 4);
   return (
     <>
-      <HomeHero />
+      <HomeHero banners={banners} />
       <section className="container-shell py-8 sm:py-[68px]">
         <div className="section-heading"><div><p className="eyebrow hidden sm:block">Find your flavour</p><h2 className="text-[20px] font-semibold sm:display-title sm:mt-2 sm:text-4xl"><span className="sm:hidden">ফ্লেভার</span><span className="hidden sm:inline">Choose your favourite taste</span></h2></div><Link href="/products" className="flex items-center gap-1 text-[11px] font-medium text-[#ff464b] sm:text-sm sm:font-bold">সব দেখুন <ArrowRight size={13} className="sm:hidden" /><ArrowRight size={16} className="hidden sm:block" /></Link></div>
         <div className="mx-auto grid max-w-4xl grid-cols-4 gap-3 sm:gap-8">{categories.slice(0, 4).map((category) => <Link key={category._id} href={`/category/${category.slug}`} className="group text-center"><div className="relative mx-auto aspect-square overflow-hidden rounded-full bg-stone-100"><Image src={category.image} alt={category.name} fill sizes="(max-width: 640px) 23vw, 20vw" className="object-cover transition duration-500 group-hover:scale-105" /></div><h3 className="mt-3 text-[10px] font-bold leading-tight sm:text-sm">{category.name}</h3></Link>)}</div>

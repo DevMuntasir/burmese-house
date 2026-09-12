@@ -81,3 +81,17 @@ export type CartItem = {
 };
 
 export type OrderStatus = "placed" | "confirmed" | "processing" | "shipped" | "delivered" | "cancelled";
+
+export type Banner = {
+  _id: string;
+  title: string;
+  subtitle?: string;
+  image: string;
+  mobileImage?: string;
+  link?: string;
+  buttonText?: string;
+  active?: boolean;
+  sortOrder?: number;
+  startDate?: string;
+  endDate?: string;
+};

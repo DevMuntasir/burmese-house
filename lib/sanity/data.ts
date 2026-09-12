@@ -1,8 +1,8 @@
-import type { Category, Product, ProductVariant, StoreSettings } from "@/lib/types";
+import type { Banner, Category, Product, ProductVariant, StoreSettings } from "@/lib/types";
 import { type DashboardOrder, type OrderItemDetail } from "@/lib/orders-data";
-import { categories as fallbackCategories, products as fallbackProducts, storeSettings as fallbackSettings } from "@/lib/mock-data";
+import { banners as fallbackBanners, categories as fallbackCategories, products as fallbackProducts, storeSettings as fallbackSettings } from "@/lib/mock-data";
 import { hasSanityConfig, sanityClient } from "./client";
-import { categoriesQuery, settingsQuery } from "./queries";
+import { bannersQuery, categoriesQuery, settingsQuery } from "./queries";
 
 function resolveText(val: unknown): string {
   if (!val) return "";
@@ -274,6 +274,30 @@ export async function getStoreSettings(): Promise<StoreSettings> {
     } as StoreSettings;
   } catch {
     return fallbackSettings;
+  }
+}
+
+export async function getBanners(): Promise<Banner[]> {
+  if (!hasSanityConfig) return fallbackBanners;
+  try {
+    const raw = await sanityClient.fetch<Banner[]>(
+      bannersQuery,
+      {},
+      { next: { revalidate: 30, tags: ["banners"] } }
+    );
+    if (raw && raw.length > 0) {
+      const now = new Date();
+      const valid = raw.filter((b) => {
+        if (b.startDate && new Date(b.startDate) > now) return false;
+        if (b.endDate && new Date(b.endDate) < now) return false;
+        return Boolean(b.image || b.mobileImage);
+      });
+      return valid.length > 0 ? valid : fallbackBanners;
+    }
+    return fallbackBanners;
+  } catch (err) {
+    console.warn("Sanity fetch banners error, falling back", err);
+    return fallbackBanners;
   }
 }
 

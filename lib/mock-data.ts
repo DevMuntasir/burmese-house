@@ -1,4 +1,4 @@
-import type { Category, Product, StoreSettings } from "./types";
+import type { Banner, Category, Product, StoreSettings } from "./types";
 
 export const storeSettings: StoreSettings = {
   storeName: "Burmese House",
@@ -60,4 +60,29 @@ export const products: Product[] = [
   product({ _id: "bh-106", title: "Tamarind Chutney Family Jar", slug: "tamarind-chutney-family-jar", regularPrice: 660, salePrice: 590, category: { name: "Tamarind Chutney", slug: "tamarind-chutney" }, images: ["/images/tamarind-chutney.png"], isNewArrival: true, stockQuantity: 11, soldCount: 38 }),
   product({ _id: "bh-107", title: "Chili Garlic Twin Pack", slug: "chili-garlic-twin-pack", regularPrice: 840, salePrice: 740, category: { name: "Combo & Gift Box", slug: "combo-gift-box" }, images: ["/images/chili-chutney.png"], isNewArrival: true, stockQuantity: 16, soldCount: 61, shortDescription: "ঝালপ্রেমীদের জন্য চিলি গার্লিক চাটনির দুইটি ২৫০ গ্রাম জারের সাশ্রয়ী প্যাক।" }),
   product({ _id: "bh-108", title: "Burmese House Gift Box", slug: "burmese-house-gift-box", regularPrice: 1350, salePrice: 1190, category: { name: "Combo & Gift Box", slug: "combo-gift-box" }, images: ["/images/hero-chutney.png"], isFeatured: true, stockQuantity: 8, soldCount: 29, shortDescription: "তিন স্বাদের চাটনি, সুন্দর gift-ready packaging—উৎসব ও বিশেষ দিনের জন্য।" }),
+];
+
+export const banners: Banner[] = [
+  {
+    _id: "banner-1",
+    title: "A jar full of Burmese tradition.",
+    subtitle: "বাছাই করা তাজা উপকরণ ও নিজস্ব মসলায় তৈরি আম, তেঁতুল আর চিলি গার্লিক চাটনি—প্রতিদিনের খাবারকে করে আরও মজাদার।",
+    image: "/images/hero-chutney.png",
+    mobileImage: "/images/hero-chutney.png",
+    link: "/products",
+    buttonText: "সব আচার দেখুন",
+    active: true,
+    sortOrder: 1,
+  },
+  {
+    _id: "banner-2",
+    title: "Burmese Achar Combo Pack",
+    subtitle: "আম, তেঁতুল ও চিলি গার্লিক—একসাথে তিনটি জনপ্রিয় স্বাদ উপভোগ করুন বিশেষ ছাড়ে।",
+    image: "/images/hero-chutney.png",
+    mobileImage: "/images/hero-chutney.png",
+    link: "/category/combo-gift-box",
+    buttonText: "Combo অফার দেখুন",
+    active: true,
+    sortOrder: 2,
+  },
 ];
