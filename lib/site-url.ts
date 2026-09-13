@@ -15,7 +15,7 @@ export function getBaseUrl(): string {
     return `https://${process.env.VERCEL_URL.replace(/\/+$/, "")}`;
   }
 
-  return "https://burmesehouse.com";
+  return "https://burmesehouse.shop";
 }
 
 export function getAbsoluteUrl(path: string): string {

@@ -18,6 +18,18 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+function cleanVerificationToken(token?: string): string | undefined {
+  if (!token) return undefined;
+  let clean = token.trim();
+  const match = clean.match(/content=["']?([^"'>]+)["']?/i);
+  if (match && match[1]) {
+    clean = match[1];
+  }
+  clean = clean.replace(/^google-site-verification=/i, "");
+  clean = clean.replace(/["';]/g, "").trim();
+  return clean || undefined;
+}
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
@@ -94,7 +106,10 @@ export const metadata: Metadata = {
     shortcut: "/logo.png",
   },
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+    google: cleanVerificationToken(
+      process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ||
+        process.env.GOOGLE_SITE_VERIFICATION
+    ),
   },
 };
 
