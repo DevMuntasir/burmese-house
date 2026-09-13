@@ -76,8 +76,8 @@ export const products: Product[] = [
 export const banners: Banner[] = [
   {
     _id: "banner-1",
-    title: "A jar full of Burmese tradition.",
-    subtitle: "বাছাই করা তাজা উপকরণ ও নিজস্ব মসলায় তৈরি আম, তেঁতুল আর চিলি গার্লিক চাটনি—প্রতিদিনের খাবারকে করে আরও মজাদার।",
+    title: "আসল বার্মিজ আচারের ঐতিহ্যবাহী স্বাদ",
+    subtitle: "বাছাই করা তাজা উপকরণ ও নিজস্ব মসলায় তৈরি আম, তেঁতুল আর চিলি গার্লিক চাটনি—প্রতিদিনের খাবারে আনবে দারুণ তৃপ্তি।",
     image: "/images/hero-chutney.png",
     mobileImage: "/images/hero-chutney.png",
     link: "/products",
@@ -87,13 +87,24 @@ export const banners: Banner[] = [
   },
   {
     _id: "banner-2",
-    title: "Burmese Achar Combo Pack",
-    subtitle: "আম, তেঁতুল ও চিলি গার্লিক—একসাথে তিনটি জনপ্রিয় স্বাদ উপভোগ করুন বিশেষ ছাড়ে।",
+    title: "বার্মিজ চাটনি স্পেশাল কম্বো প্যাক",
+    subtitle: "আম, তেঁতুল ও চিলি গার্লিক—একসাথে তিনটি জনপ্রিয় সেরা স্বাদ উপভোগ করুন আকর্ষণীয় অফারে।",
     image: "/images/hero-chutney.png",
     mobileImage: "/images/hero-chutney.png",
     link: "/category/combo-gift-box",
-    buttonText: "Combo অফার দেখুন",
+    buttonText: "কম্বো অফার দেখুন",
     active: true,
     sortOrder: 2,
+  },
+  {
+    _id: "banner-3",
+    title: "ঘরে তৈরি ১০০% খাঁটি ও তৃপ্তিদায়ক চাটনি",
+    subtitle: "কোনো কৃত্রিম রঙ বা প্রিজারভেটিভ ছাড়া নিখুঁত পরিচ্ছন্নতায় তৈরি ঘরোয়া রেসিপির আচার।",
+    image: "/images/hero-chutney.png",
+    mobileImage: "/images/hero-chutney.png",
+    link: "/products",
+    buttonText: "এখনই অর্ডার করুন",
+    active: true,
+    sortOrder: 3,
   },
 ];

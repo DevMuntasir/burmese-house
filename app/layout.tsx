@@ -8,7 +8,27 @@ import { Header } from "@/components/layout/header";
 import { StoreJsonLd } from "@/components/seo/structured-data";
 import { getCategories, getStoreSettings } from "@/lib/sanity/data";
 import { getBaseUrl } from "@/lib/site-url";
+import { Hind_Siliguri, Anek_Bangla, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+
+const hindSiliguri = Hind_Siliguri({
+  subsets: ["bengali", "latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-hind-siliguri",
+  display: "swap",
+});
+
+const anekBangla = Anek_Bangla({
+  subsets: ["bengali", "latin"],
+  variable: "--font-anek-bangla",
+  display: "swap",
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 const siteUrl = getBaseUrl();
 
@@ -122,8 +142,8 @@ export default async function RootLayout({
   ]);
 
   return (
-    <html lang="bn">
-      <body>
+    <html lang="bn" className={`${hindSiliguri.variable} ${anekBangla.variable} ${plusJakartaSans.variable}`}>
+      <body className="font-bangla antialiased text-[#211b1d] bg-white">
         <StoreJsonLd settings={settings} />
         <CartProvider>
           <Header settings={settings} categories={categories} />

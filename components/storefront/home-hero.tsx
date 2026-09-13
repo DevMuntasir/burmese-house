@@ -75,16 +75,15 @@ export function HomeHero({ banners: initialBanners }: HomeHeroProps) {
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        <div className="relative min-h-[185px] overflow-hidden rounded-[20px] bg-[#221514] shadow-[0_8px_24px_rgba(0,0,0,.15)]">
+        <div className="relative min-h-[210px] overflow-hidden rounded-[20px] bg-[#221514] shadow-[0_8px_24px_rgba(0,0,0,.15)]">
           {banners.map((banner, index) => {
             const isActive = index === currentIndex;
             const bannerImg = banner.mobileImage || banner.image || "/images/hero-chutney.png";
             return (
               <div
                 key={banner._id || index}
-                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                  isActive ? "z-10 opacity-100" : "z-0 pointer-events-none opacity-0"
-                }`}
+                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${isActive ? "z-10 opacity-100" : "z-0 pointer-events-none opacity-0"
+                  }`}
               >
                 <Image
                   src={bannerImg}
@@ -94,25 +93,25 @@ export function HomeHero({ banners: initialBanners }: HomeHeroProps) {
                   sizes="calc(100vw - 24px)"
                   className="object-cover object-[68%_center]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#1c1010]/95 via-[#291a18]/85 to-transparent" />
-                <div className="relative flex h-full max-w-[65%] flex-col items-start justify-between p-4 text-white">
+                <div className="absolute inset-0 bg-gradient-to-r from-[#140a0b]/98 via-[#1f0e11]/88 to-black/25" />
+                <div className="relative flex h-full max-w-[74%] flex-col items-start justify-between p-4 xs:p-5 text-white">
                   <div>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-0.5 text-[9px] font-bold text-[#222] shadow-sm">
-                      <Sparkles size={10} className="text-[#ff464b]" />
-                      বিশেষ অফার
+                    <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-0.5 text-[10px] font-bold text-[#8b1e2a] shadow-xs backdrop-blur-xs">
+                      <Sparkles size={11} className="text-[#ff464b]" />
+                      আসল বার্মিজ স্বাদ
                     </span>
-                    <h1 className="mt-2 text-[17px] font-extrabold leading-tight text-white drop-shadow-sm">
+                    <h1 className="hero-title-bangla mt-2 text-[18px] xs:text-[20px] font-extrabold leading-[1.3] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
                       {banner.title}
                     </h1>
                     {banner.subtitle && (
-                      <p className="mt-1 line-clamp-2 text-[11px] leading-snug text-stone-200">
+                      <p className="mt-1.5 line-clamp-2 text-[11.5px] leading-relaxed text-stone-200/90 font-normal">
                         {banner.subtitle}
                       </p>
                     )}
                   </div>
                   <Link
                     href={banner.link || "/products"}
-                    className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#ff464b] px-4 py-1.5 text-[11px] font-bold text-white shadow-md active:scale-95 transition-transform"
+                    className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#ff464b] hover:bg-[#e8343a] px-4 py-1.5 text-[12px] font-bold text-white shadow-md active:scale-95 transition-transform"
                   >
                     {banner.buttonText || "অর্ডার করুন"}
                     <ArrowRight size={12} />
@@ -132,9 +131,8 @@ export function HomeHero({ banners: initialBanners }: HomeHeroProps) {
                 type="button"
                 onClick={() => goToSlide(idx)}
                 aria-label={`Go to slide ${idx + 1}`}
-                className={`h-2 transition-all duration-300 rounded-full ${
-                  idx === currentIndex ? "w-6 bg-[#ff464b]" : "w-2 bg-stone-300"
-                }`}
+                className={`h-2 transition-all duration-300 rounded-full ${idx === currentIndex ? "w-6 bg-[#ff464b]" : "w-2 bg-stone-300"
+                  }`}
               />
             ))}
           </div>
@@ -153,9 +151,8 @@ export function HomeHero({ banners: initialBanners }: HomeHeroProps) {
           return (
             <div
               key={banner._id || index}
-              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                isActive ? "z-10 opacity-100" : "z-0 pointer-events-none opacity-0"
-              }`}
+              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${isActive ? "z-10 opacity-100" : "z-0 pointer-events-none opacity-0"
+                }`}
             >
               <Image
                 src={bannerImg}
@@ -165,28 +162,44 @@ export function HomeHero({ banners: initialBanners }: HomeHeroProps) {
                 sizes="100vw"
                 className="object-cover object-[65%_center] sm:object-center transition-transform duration-1000 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#f5eee8] via-[#f5eee8]/80 to-transparent sm:via-[#f5eee8]/30" />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#faf6f3] via-[#faf6f3]/95 via-45% to-[#faf6f3]/10 sm:from-[#faf6f3]/98 sm:via-[#faf6f3]/92 sm:via-52% lg:via-[#faf6f3]/85 lg:via-48% lg:to-transparent" />
               <div className="container-shell relative flex min-h-[520px] items-center py-16 sm:min-h-[580px] lg:min-h-[620px]">
-                <div className="max-w-[580px]">
-                  <span className="eyebrow flex items-center gap-1.5 font-bold">
+                <div className="max-w-[620px]">
+                  {/* <div className="inline-flex items-center gap-2 rounded-full border border-[#eddcd4] bg-white/90 px-3.5 py-1.5 shadow-xs backdrop-blur-xs">
                     <Sparkles size={14} className="text-[#ff464b]" />
-                    Handmade · Small batch · Authentic
-                  </span>
-                  <h1 className="display-title mt-4 text-[42px] leading-[1.02] sm:text-5xl lg:text-[68px]">
+                    <span className="text-[12px] font-bold tracking-wider text-[#6f2742] uppercase font-sans">
+                      Handmade · Small batch · Authentic
+                    </span>
+                  </div> */}
+                  <h1 className="hero-title-bangla mt-4 text-[34px] sm:text-[42px] md:text-[48px] lg:text-[54px] xl:text-[60px] font-extrabold leading-[1.22] text-[#1c1214] tracking-normal">
                     {banner.title}
                   </h1>
                   {banner.subtitle && (
-                    <p className="mt-5 max-w-md text-sm leading-6 text-stone-600 sm:text-base">
+                    <p className="mt-4 max-w-[500px] text-base leading-relaxed text-stone-700 sm:text-[17px] font-normal">
                       {banner.subtitle}
                     </p>
                   )}
-                  <div className="mt-8 flex flex-wrap gap-3">
-                    <Link href={banner.link || "/products"} className="button-primary">
+                  <div className="mt-8 flex flex-wrap items-center gap-3.5">
+                    <Link href={banner.link || "/products"} className="button-primary inline-flex items-center gap-2 rounded-full px-7 py-3 text-base font-bold shadow-md hover:shadow-lg transition-all">
                       {banner.buttonText || "সব আচার দেখুন"} <ArrowRight size={17} />
                     </Link>
-                    <Link href="/category/combo-gift-box" className="button-outline">
-                      Combo packs
+                    <Link href="/category/combo-gift-box" className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full border border-stone-300 bg-white/80 px-6 py-2.5 text-[15px] font-bold text-[#1c1214] backdrop-blur-xs transition-all hover:border-[#ff464b] hover:bg-white hover:text-[#ff464b]">
+                      কম্বো প্যাক দেখুন
                     </Link>
+                  </div>
+                  <div className="mt-6 flex flex-wrap items-center gap-4 text-xs font-semibold text-stone-600">
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="h-2 w-2 rounded-full bg-[#ff464b]" />
+                      শতভাগ খাঁটি উপকরণ
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="h-2 w-2 rounded-full bg-[#ff464b]" />
+                      সারাদেশে ক্যাশ অন ডেলিভারি
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                      <span className="h-2 w-2 rounded-full bg-[#ff464b]" />
+                      ঘরোয়া বার্মিজ রেসিপি
+                    </span>
                   </div>
                 </div>
               </div>
@@ -222,11 +235,10 @@ export function HomeHero({ banners: initialBanners }: HomeHeroProps) {
                   type="button"
                   onClick={() => goToSlide(idx)}
                   aria-label={`Go to slide ${idx + 1}`}
-                  className={`h-2.5 transition-all duration-300 rounded-full ${
-                    idx === currentIndex
+                  className={`h-2.5 transition-all duration-300 rounded-full ${idx === currentIndex
                       ? "w-8 bg-[#ff464b] shadow-sm"
                       : "w-2.5 bg-stone-400/60 hover:bg-stone-500"
-                  }`}
+                    }`}
                 />
               ))}
             </div>
@@ -247,9 +259,8 @@ export function HomeHero({ banners: initialBanners }: HomeHeroProps) {
             return (
               <div
                 key={title as string}
-                className={`flex items-center justify-center gap-3 px-2 py-2 ${
-                  index > 1 ? "hidden sm:flex" : ""
-                }`}
+                className={`flex items-center justify-center gap-3 px-2 py-2 ${index > 1 ? "hidden sm:flex" : ""
+                  }`}
               >
                 <IconComponent size={20} className="text-[#6f2742]" />
                 <div>
