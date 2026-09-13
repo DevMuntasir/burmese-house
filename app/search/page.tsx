@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
 import { Search } from "lucide-react";
 import { ProductGrid } from "@/components/product/product-grid";
 import { PageHeading } from "@/components/shared/page-heading";
 import { getProducts } from "@/lib/sanity/data";
+
+export const metadata: Metadata = {
+  title: "Search",
+  robots: { index: false, follow: false },
+};
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {
   const { q = "" } = await searchParams;

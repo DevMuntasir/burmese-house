@@ -3,8 +3,37 @@ import Link from "next/link";
 import { ProductGrid } from "@/components/product/product-grid";
 import { PageHeading } from "@/components/shared/page-heading";
 import { getCategories, getProducts } from "@/lib/sanity/data";
+import { getAbsoluteUrl } from "@/lib/site-url";
 
-export const metadata: Metadata = { title: "All Chutneys", description: "Shop handmade Burmese mango, tamarind and chili garlic chutney from Burmese House." };
+export const metadata: Metadata = {
+  title: "সব আচার ও চাটনি — Burmese House",
+  description:
+    "Burmese House-এর ঘরে তৈরি আম, তেঁতুল, চিলি গার্লিক আচার এবং সাশ্রয়ী combo pack থেকে পছন্দ করুন। সারাদেশে হোম ডেলিভারি।",
+  alternates: {
+    canonical: "/products",
+  },
+  openGraph: {
+    title: "সব আচার ও চাটনি | Burmese House",
+    description:
+      "ঘরে তৈরি আসল বার্মিজ আচারের স্বাদ—আমের আচার, তেঁতুলের চাটনি ও চিলি গার্লিক।",
+    url: "/products",
+    type: "website",
+    images: [
+      {
+        url: getAbsoluteUrl("/images/hero-chutney.png"),
+        width: 1200,
+        height: 630,
+        alt: "Burmese House Products",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "সব আচার ও চাটনি | Burmese House",
+    description: "Burmese House-এর স্পেশাল আচার কালেকশন।",
+    images: [getAbsoluteUrl("/images/hero-chutney.png")],
+  },
+};
 
 export default async function ProductsPage({ searchParams }: { searchParams: Promise<{ sort?: string; category?: string }> }) {
   const [{ sort, category }, products, categories] = await Promise.all([searchParams, getProducts(), getCategories()]);
