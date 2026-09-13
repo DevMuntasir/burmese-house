@@ -25,6 +25,7 @@ export type Product = {
   isNewArrival?: boolean;
   stockQuantity: number;
   soldCount?: number;
+  rating?: number;
   variants?: ProductVariant[];
   specifications?: { label: string; value: string }[];
 };
@@ -48,11 +49,22 @@ export type DeliveryZoneOption = {
 
 export type StoreSettings = {
   storeName: string;
+  logo?: string;
+  favicon?: string;
   announcement: string;
   phone: string;
   email: string;
   whatsapp: string;
   address: string;
+  googleMapsUrl?: string;
+  businessHours?: string;
+  facebook?: string;
+  instagram?: string;
+  tiktok?: string;
+  youtube?: string;
+  twitter?: string;
+  linkedin?: string;
+  footerText?: string;
   currency: string;
   deliveryZones: DeliveryZoneOption[];
   insideDhakaCharge?: number;
@@ -84,7 +96,7 @@ export type OrderStatus = "placed" | "confirmed" | "processing" | "shipped" | "d
 
 export type Banner = {
   _id: string;
-  title: string;
+  title?: string;
   subtitle?: string;
   image: string;
   mobileImage?: string;

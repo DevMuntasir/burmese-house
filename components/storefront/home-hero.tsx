@@ -88,7 +88,7 @@ export function HomeHero({ banners: initialBanners }: HomeHeroProps) {
               >
                 <Image
                   src={bannerImg}
-                  alt={banner.title}
+                  alt={banner.title || "Banner"}
                   fill
                   priority={index === 0}
                   sizes="calc(100vw - 24px)"
@@ -159,7 +159,7 @@ export function HomeHero({ banners: initialBanners }: HomeHeroProps) {
             >
               <Image
                 src={bannerImg}
-                alt={banner.title}
+                alt={banner.title || "Banner"}
                 fill
                 priority={index === 0}
                 sizes="100vw"

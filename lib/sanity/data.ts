@@ -50,6 +50,7 @@ const rawProductsQuery = `*[_type == "product" && (active == true || !defined(ac
   sku,
   weight,
   badge,
+  rating,
   category->{name, "slug": slug.current},
   "images": coalesce(
     images[].asset->url,
@@ -78,6 +79,7 @@ export function normalizeSanityProduct(p: {
   sku?: string;
   weight?: string;
   badge?: unknown;
+  rating?: number;
   category?: { name: string; slug?: string };
   images?: string[];
   variants?: Array<{
@@ -167,6 +169,7 @@ export function normalizeSanityProduct(p: {
     isNewArrival: Boolean(p.isNewArrival),
     stockQuantity: typeof p.stockQuantity === "number" ? p.stockQuantity : 40,
     soldCount: 15,
+    rating: typeof p.rating === "number" ? p.rating : (p.rating ? Number(p.rating) : 4.8),
     variants: variants.length > 0 ? variants : undefined,
     specifications:
       p.specifications || (p.weight ? [{ label: "Net Weight / Pack", value: String(p.weight) }] : undefined),
@@ -263,9 +266,16 @@ export async function getStoreSettings(): Promise<StoreSettings> {
       ];
     }
 
+    const cleanedStore: Record<string, unknown> = {};
+    Object.entries(store).forEach(([k, v]) => {
+      if (v !== null && v !== undefined && v !== "") {
+        cleanedStore[k] = v;
+      }
+    });
+
     return {
       ...fallbackSettings,
-      ...store,
+      ...cleanedStore,
       ...shipping,
       ...payment,
       deliveryZones,

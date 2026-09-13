@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Toaster } from "sonner";
 import { CartProvider } from "@/components/cart/cart-provider";
 import { FloatingCart } from "@/components/cart/floating-cart";
+import { FloatingWhatsApp } from "@/components/shared/floating-whatsapp";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import { getCategories, getStoreSettings } from "@/lib/sanity/data";
@@ -23,6 +24,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
           <Header settings={settings} categories={categories} />
           <main className="min-h-[65vh]">{children}</main>
           <FloatingCart />
+          <FloatingWhatsApp settings={settings} />
           <Footer settings={settings} categories={categories} />
           <Toaster richColors position="top-center" />
         </CartProvider>

@@ -4,7 +4,7 @@ export const productProjection = `{
   "images": coalesce(images[].asset->url, []),
   "category": category->{name, "slug": slug.current},
   sku, regularPrice, salePrice, isFeatured, isBestSeller, isNewArrival,
-  stockQuantity, soldCount,
+  stockQuantity, soldCount, rating,
   variants[]{_key, title, sku, options, stock, priceAdjustment, active, "image": image.asset->url},
   specifications[]{label, value}
 }`;
@@ -13,7 +13,11 @@ export const productsQuery = `*[_type == "product" && active == true] | order(co
 export const productBySlugQuery = `*[_type == "product" && slug.current == $slug && active == true][0] ${productProjection}`;
 export const categoriesQuery = `*[_type == "category" && active == true] | order(sortOrder asc){_id, name, "slug": slug.current, "image": image.asset->url, description, featured}`;
 export const settingsQuery = `{
-  "store": *[_type == "storeSettings"][0],
+  "store": *[_type == "storeSettings"][0]{
+    ...,
+    "logo": logo.asset->url,
+    "favicon": favicon.asset->url
+  },
   "shipping": *[_type == "shippingSettings"][0],
   "payment": *[_type == "paymentSettings"][0]
 }`;

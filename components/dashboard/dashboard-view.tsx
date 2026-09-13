@@ -23,6 +23,7 @@ import {
   Search,
   ShieldCheck,
   ShoppingBag,
+  Star,
   Store,
   X,
 } from "lucide-react";
@@ -1164,7 +1165,13 @@ export function DashboardView({
                           <div className="flex items-start justify-between gap-1">
                             <div>
                               <h3 className="font-bold text-stone-900 text-sm leading-tight">{p.title}</h3>
-                              <span className="text-[11px] text-stone-500 font-mono">SKU: {p.sku}</span>
+                              <div className="flex items-center gap-2 mt-0.5">
+                                <span className="text-[11px] text-stone-500 font-mono">SKU: {p.sku}</span>
+                                <span className="flex items-center gap-0.5 text-[11px] font-semibold text-amber-600 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200/60">
+                                  <Star size={10} fill="#d97706" className="text-amber-500" strokeWidth={0} />
+                                  {(p.rating ?? 4.8).toFixed(1)}
+                                </span>
+                              </div>
                             </div>
 
                             {/* Stock Badge */}

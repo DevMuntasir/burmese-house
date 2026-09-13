@@ -2,11 +2,21 @@ import type { Banner, Category, Product, StoreSettings } from "./types";
 
 export const storeSettings: StoreSettings = {
   storeName: "Burmese House",
+  logo: "/logo.png",
   announcement: "ঘরে তৈরি আসল বার্মিজ আচারের স্বাদ • সারাদেশে হোম ডেলিভারি",
   phone: "09613-008008",
   email: "hello@burmesehouse.com",
   whatsapp: "8801711002200",
   address: "Banani, Dhaka 1213, Bangladesh",
+  googleMapsUrl: "https://maps.google.com/?q=Banani,Dhaka",
+  businessHours: "Everyday: 9:00 AM - 10:00 PM",
+  facebook: "https://facebook.com",
+  instagram: "https://instagram.com",
+  tiktok: "https://tiktok.com",
+  youtube: "",
+  twitter: "",
+  linkedin: "",
+  footerText: "Traditional Burmese achar, handmade in small batches with carefully selected ingredients and lots of love.",
   currency: "BDT",
   insideDhakaCharge: 80,
   outsideDhakaCharge: 130,
@@ -34,6 +44,7 @@ const product = (data: Partial<Product> & Pick<Product, "_id" | "title" | "slug"
   sku: data._id.toUpperCase(),
   stockQuantity: 18,
   soldCount: 0,
+  rating: 4.8,
   specifications: [
     { label: "Made in", value: "Bangladesh" },
     { label: "Storage", value: "ঠান্ডা ও শুষ্ক স্থানে রাখুন" },
@@ -43,23 +54,23 @@ const product = (data: Partial<Product> & Pick<Product, "_id" | "title" | "slug"
 });
 
 export const products: Product[] = [
-  product({ _id: "bh-101", title: "Burmese Mango Chutney", slug: "burmese-mango-chutney", regularPrice: 380, salePrice: 340, category: { name: "Mango Chutney", slug: "mango-chutney" }, images: ["/images/mango-chutney.png"], isFeatured: true, isBestSeller: true, soldCount: 187, variants: [
+  product({ _id: "bh-101", title: "Burmese Mango Chutney", slug: "burmese-mango-chutney", regularPrice: 380, salePrice: 340, category: { name: "Mango Chutney", slug: "mango-chutney" }, images: ["/images/mango-chutney.png"], isFeatured: true, isBestSeller: true, soldCount: 187, rating: 4.9, variants: [
     { _key: "mango-250", title: "250g Jar", sku: "BH-MNG-250", options: { Weight: "250g" }, stock: 24, active: true },
     { _key: "mango-500", title: "500g Jar", sku: "BH-MNG-500", options: { Weight: "500g" }, stock: 12, priceAdjustment: 280, active: true },
   ] }),
-  product({ _id: "bh-102", title: "Burmese Tamarind Chutney", slug: "burmese-tamarind-chutney", regularPrice: 360, salePrice: 320, category: { name: "Tamarind Chutney", slug: "tamarind-chutney" }, images: ["/images/tamarind-chutney.png"], isFeatured: true, isBestSeller: true, soldCount: 154, variants: [
+  product({ _id: "bh-102", title: "Burmese Tamarind Chutney", slug: "burmese-tamarind-chutney", regularPrice: 360, salePrice: 320, category: { name: "Tamarind Chutney", slug: "tamarind-chutney" }, images: ["/images/tamarind-chutney.png"], isFeatured: true, isBestSeller: true, soldCount: 154, rating: 4.8, variants: [
     { _key: "tamarind-250", title: "250g Jar", sku: "BH-TMR-250", options: { Weight: "250g" }, stock: 20, active: true },
     { _key: "tamarind-500", title: "500g Jar", sku: "BH-TMR-500", options: { Weight: "500g" }, stock: 9, priceAdjustment: 260, active: true },
   ] }),
-  product({ _id: "bh-103", title: "Burmese Chili Garlic Chutney", slug: "burmese-chili-garlic-chutney", regularPrice: 420, salePrice: 370, category: { name: "Chili Chutney", slug: "chili-chutney" }, images: ["/images/chili-chutney.png"], isFeatured: true, isBestSeller: true, soldCount: 226, variants: [
+  product({ _id: "bh-103", title: "Burmese Chili Garlic Chutney", slug: "burmese-chili-garlic-chutney", regularPrice: 420, salePrice: 370, category: { name: "Chili Chutney", slug: "chili-chutney" }, images: ["/images/chili-chutney.png"], isFeatured: true, isBestSeller: true, soldCount: 226, rating: 5.0, variants: [
     { _key: "chili-250", title: "250g Jar", sku: "BH-CHL-250", options: { Weight: "250g" }, stock: 28, active: true },
     { _key: "chili-500", title: "500g Jar", sku: "BH-CHL-500", options: { Weight: "500g" }, stock: 10, priceAdjustment: 310, active: true },
   ] }),
-  product({ _id: "bh-104", title: "Burmese Chutney Tasting Trio", slug: "burmese-chutney-tasting-trio", regularPrice: 1140, salePrice: 999, category: { name: "Combo & Gift Box", slug: "combo-gift-box" }, images: ["/images/hero-chutney.png"], isFeatured: true, isBestSeller: true, soldCount: 96, shortDescription: "আম, তেঁতুল ও চিলি গার্লিক—তিনটি জনপ্রিয় ২৫০ গ্রাম জার একসাথে।" }),
-  product({ _id: "bh-105", title: "Mango Chutney Family Jar", slug: "mango-chutney-family-jar", regularPrice: 690, salePrice: 620, category: { name: "Mango Chutney", slug: "mango-chutney" }, images: ["/images/mango-chutney.png"], isNewArrival: true, stockQuantity: 14, soldCount: 43, shortDescription: "পরিবারের জন্য ৫০০ গ্রাম বড় জার—মিষ্টি, টক আর হালকা ঝালের পরিচিত স্বাদ।" }),
-  product({ _id: "bh-106", title: "Tamarind Chutney Family Jar", slug: "tamarind-chutney-family-jar", regularPrice: 660, salePrice: 590, category: { name: "Tamarind Chutney", slug: "tamarind-chutney" }, images: ["/images/tamarind-chutney.png"], isNewArrival: true, stockQuantity: 11, soldCount: 38 }),
-  product({ _id: "bh-107", title: "Chili Garlic Twin Pack", slug: "chili-garlic-twin-pack", regularPrice: 840, salePrice: 740, category: { name: "Combo & Gift Box", slug: "combo-gift-box" }, images: ["/images/chili-chutney.png"], isNewArrival: true, stockQuantity: 16, soldCount: 61, shortDescription: "ঝালপ্রেমীদের জন্য চিলি গার্লিক চাটনির দুইটি ২৫০ গ্রাম জারের সাশ্রয়ী প্যাক।" }),
-  product({ _id: "bh-108", title: "Burmese House Gift Box", slug: "burmese-house-gift-box", regularPrice: 1350, salePrice: 1190, category: { name: "Combo & Gift Box", slug: "combo-gift-box" }, images: ["/images/hero-chutney.png"], isFeatured: true, stockQuantity: 8, soldCount: 29, shortDescription: "তিন স্বাদের চাটনি, সুন্দর gift-ready packaging—উৎসব ও বিশেষ দিনের জন্য।" }),
+  product({ _id: "bh-104", title: "Burmese Chutney Tasting Trio", slug: "burmese-chutney-tasting-trio", regularPrice: 1140, salePrice: 999, category: { name: "Combo & Gift Box", slug: "combo-gift-box" }, images: ["/images/hero-chutney.png"], isFeatured: true, isBestSeller: true, soldCount: 96, rating: 4.9, shortDescription: "আম, তেঁতুল ও চিলি গার্লিক—তিনটি জনপ্রিয় ২৫০ গ্রাম জার একসাথে।" }),
+  product({ _id: "bh-105", title: "Mango Chutney Family Jar", slug: "mango-chutney-family-jar", regularPrice: 690, salePrice: 620, category: { name: "Mango Chutney", slug: "mango-chutney" }, images: ["/images/mango-chutney.png"], isNewArrival: true, stockQuantity: 14, soldCount: 43, rating: 4.7, shortDescription: "পরিবারের জন্য ৫০০ গ্রাম বড় জার—মিষ্টি, টক আর হালকা ঝালের পরিচিত স্বাদ।" }),
+  product({ _id: "bh-106", title: "Tamarind Chutney Family Jar", slug: "tamarind-chutney-family-jar", regularPrice: 660, salePrice: 590, category: { name: "Tamarind Chutney", slug: "tamarind-chutney" }, images: ["/images/tamarind-chutney.png"], isNewArrival: true, stockQuantity: 11, soldCount: 38, rating: 4.8 }),
+  product({ _id: "bh-107", title: "Chili Garlic Twin Pack", slug: "chili-garlic-twin-pack", regularPrice: 840, salePrice: 740, category: { name: "Combo & Gift Box", slug: "combo-gift-box" }, images: ["/images/chili-chutney.png"], isNewArrival: true, stockQuantity: 16, soldCount: 61, rating: 4.9, shortDescription: "ঝালপ্রেমীদের জন্য চিলি গার্লিক চাটনির দুইটি ২৫০ গ্রাম জারের সাশ্রয়ী প্যাক।" }),
+  product({ _id: "bh-108", title: "Burmese House Gift Box", slug: "burmese-house-gift-box", regularPrice: 1350, salePrice: 1190, category: { name: "Combo & Gift Box", slug: "combo-gift-box" }, images: ["/images/hero-chutney.png"], isFeatured: true, stockQuantity: 8, soldCount: 29, rating: 5.0, shortDescription: "তিন স্বাদের চাটনি, সুন্দর gift-ready packaging—উৎসব ও বিশেষ দিনের জন্য।" }),
 ];
 
 export const banners: Banner[] = [
